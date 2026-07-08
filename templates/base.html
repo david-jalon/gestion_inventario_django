@@ -6,22 +6,85 @@
     <title>{% block title %}Gestión de Inventario{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-blue-600 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{% url 'product_list' %}" class="text-xl font-bold">Inventario</a>
-            <a href="{% url 'product_create' %}" class="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded">Nuevo Producto</a>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-8">
+                    <a href="{% url 'dashboard' %}" class="text-xl font-bold text-gray-800 tracking-tight">Inventario</a>
+                    <div class="flex items-center gap-1">
+                        <a href="{% url 'dashboard' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                            Dashboard
+                        </a>
+                        <a href="{% url 'product_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'product_list' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                            Productos
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </nav>
-    <main class="max-w-7xl mx-auto px-4 py-6">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="mb-4 p-3 rounded {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-200{% else %}bg-green-100 text-green-700 border border-green-200{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2">
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-toast class="flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border {% if message.tags == 'error' %}bg-red-50 text-red-800 border-red-200{% else %}bg-green-50 text-green-800 border-green-200{% endif %} transform transition-all duration-300">
+                        {% if message.tags == 'error' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                        {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        {% endif %}
+                        <p class="text-sm font-medium">{{ message }}</p>
+                        <button onclick="this.parentElement.remove()" class="ml-2 flex-shrink-0 opacity-60 hover:opacity-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
         {% block content %}{% endblock %}
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toasts = document.querySelectorAll('[data-toast]');
+            toasts.forEach(function(toast) {
+                setTimeout(function() {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(function() {
+                        toast.remove();
+                    }, 300);
+                }, 3500);
+            });
+        });
+
+        function openDeleteModal(productId, productName) {
+            document.getElementById('deleteProductName').textContent = productName;
+            var form = document.getElementById('deleteForm');
+            var pattern = form.dataset.urlPattern;
+            form.action = pattern.replace('0', productId);
+            var modal = document.getElementById('deleteModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            var modal = document.getElementById('deleteModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    </script>
 </body>
 </html>

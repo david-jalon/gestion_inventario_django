@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Gestión de Inventario{% endblock %}
+{% block content %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-blue-100 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500 font-medium">Total Productos</p>
+                <p class="text-2xl font-bold text-gray-800">{{ total_products }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-4">
+            <div class="p-3 {% if low_stock_products > 0 %}bg-red-100{% else %}bg-green-100{% endif %} rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 {% if low_stock_products > 0 %}text-red-600{% else %}text-green-600{% endif %}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500 font-medium">Stock Bajo</p>
+                <p class="text-2xl font-bold {% if low_stock_products > 0 %}text-red-600{% else %}text-green-600{% endif %}">{{ low_stock_products }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-purple-100 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500 font-medium">Categorías</p>
+                <p class="text-2xl font-bold text-gray-800">{{ total_categories }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-green-100 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500 font-medium">Valor Total</p>
+                <p class="text-2xl font-bold text-gray-800">${{ total_value|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">Últimos Productos</h2>
+            <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">Ver todos</a>
+        </div>
+        {% if latest_products %}
+            <div class="space-y-3">
+                {% for product in latest_products %}
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">{{ product.name }}</p>
+                            <p class="text-xs text-gray-500">{{ product.category.name }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-gray-800">${{ product.price }}</p>
+                            <p class="text-xs {% if product.is_low_stock %}text-red-500 font-medium{% else %}text-gray-500{% endif %}">
+                                Stock: {{ product.stock }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500 text-sm py-4 text-center">No hay productos registrados.</p>
+        {% endif %}
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">Alertas de Stock</h2>
+            <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">Ver todos</a>
+        </div>
+        {% if low_stock_list %}
+            <div class="space-y-3">
+                {% for product in low_stock_list %}
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">{{ product.name }}</p>
+                            <p class="text-xs text-gray-500">{{ product.category.name }}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">
+                                {{ product.stock }} / {{ product.low_stock_threshold }}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500 text-sm py-4 text-center">No hay productos con stock bajo.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
