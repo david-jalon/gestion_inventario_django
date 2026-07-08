@@ -57,4 +57,4 @@ def product_delete(request, pk):
         product.delete()
         messages.success(request, 'Producto eliminado exitosamente.')
         return redirect('product_list')
-    return render(request, 'inventory/product_confirm_delete.html', {'product': product})
+    return render(request, 'inventory/product_confirm.html', {'product': product})
