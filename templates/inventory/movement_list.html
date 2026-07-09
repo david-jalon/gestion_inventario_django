@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Movimientos - {{ product.name }}{% endblock %}
+{% block content %}
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Movimientos de Stock</h1>
+        <p class="text-sm text-gray-500 mt-1">{{ product.name }} — Stock actual: <strong>{{ product.stock }}</strong></p>
+    </div>
+    <a href="{% url 'movement_create' product_pk=product.pk %}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm self-start">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Nuevo Movimiento
+    </a>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full min-w-[480px]">
+            <thead>
+                <tr class="bg-gray-50 border-b border-gray-200">
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tipo</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cantidad</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Motivo</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for m in movements %}
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3.5">
+                        {% if m.movement_type == 'entry' %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Entrada
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                            </svg>
+                            Salida
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3.5 text-sm font-medium {% if m.movement_type == 'entry' %}text-green-600{% else %}text-red-600{% endif %}">
+                        {% if m.movement_type == 'entry' %}+{% else %}-{% endif %}{{ m.quantity }}
+                    </td>
+                    <td class="px-4 py-3.5 text-sm text-gray-500">{{ m.reason|default:'—' }}</td>
+                    <td class="px-4 py-3.5 text-sm text-gray-500 text-right">{{ m.created_at|date:'d/m/Y H:i' }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-4 py-8 text-center text-sm text-gray-500">No hay movimientos registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">&larr; Volver a productos</a>
+</div>
+{% endblock %}

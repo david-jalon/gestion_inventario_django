@@ -1,5 +1,11 @@
 from django.db import models
 
+
+class MovementType(models.TextChoices):
+    ENTRY = 'entry', 'Entrada'
+    EXIT = 'exit', 'Salida'
+
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -29,3 +35,17 @@ class Product(models.Model):
     @property
     def is_low_stock(self):
         return self.stock <= self.low_stock_threshold
+
+
+class StockMovement(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='movements')
+    quantity = models.PositiveIntegerField()
+    movement_type = models.CharField(max_length=10, choices=MovementType.choices)
+    reason = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', '-pk']
+
+    def __str__(self):
+        return f"{self.get_movement_type_display()} - {self.product.name} ({self.quantity})"

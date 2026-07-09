@@ -45,13 +45,13 @@
 - [x] **Ordenar columnas** — Click en headers (nombre, precio, stock) para ordenar ascendente/descendente
 - [x] **Empty state ilustrado** — Mensaje visual cuando no hay productos con icono y CTA
 
-## ⚙️ Fase 6 — Funcionalidades core
+## ✅ Fase 6 — Funcionalidades core
 
-- [ ] **CRUD de Categorías** — Vistas y templates para gestionar categorías desde la UI (actualmente solo desde admin)
-- [ ] **Django ModelForms** — Reemplazar manejo manual de `request.POST` por `ModelForm` con validación y widgets
-- [ ] **Autenticación (app `users`)** — Activar `users` en INSTALLED_APPS, login/logout, `@login_required`, registro
-- [ ] **Búsqueda por nombre** — Campo de búsqueda que filtre productos por nombre o descripción
-- [ ] **Historial de movimientos de stock** — Modelo `StockMovement` (entrada/salida, cantidad, motivo, fecha)
+- [x] **CRUD de Categorías** — Vistas, templates, URLs y tests para gestionar categorías desde la UI
+- [x] **Django ModelForms** — `ProductForm`, `CategoryForm`, `StockMovementForm` con validación y widgets
+- [x] **Autenticación (app `users`)** — Login, logout, registro, `@login_required` en todas las vistas, templates
+- [x] **Búsqueda por nombre** — Campo de búsqueda que filtra productos por nombre o descripción
+- [x] **Historial de movimientos de stock** — Modelo `StockMovement`, señal automática, vistas y templates
 
 ## 🚀 Fase 7 — Extras
 

@@ -19,9 +19,33 @@
                         <a href="{% url 'product_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'product_list' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
                             Productos
                         </a>
+                        <a href="{% url 'category_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'category_list' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                            Categorías
+                        </a>
                     </div>
                 </div>
 
+                <div class="flex items-center gap-2">
+                    {% if user.is_authenticated %}
+                    <span class="text-sm text-gray-500 hidden sm:inline">{{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                            </svg>
+                            <span class="hidden sm:inline">Salir</span>
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        Entrar
+                    </a>
+                    <a href="{% url 'register' %}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors shadow-sm">
+                        Registrarse
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
