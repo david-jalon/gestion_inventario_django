@@ -53,7 +53,15 @@
 - [x] **Búsqueda por nombre** — Campo de búsqueda que filtra productos por nombre o descripción
 - [x] **Historial de movimientos de stock** — Modelo `StockMovement`, señal automática, vistas y templates
 
-## 🚀 Fase 7 — Extras
+## 👥 Fase 7 — Gestión de usuarios y permisos
+
+- [ ] **Perfil de usuario** — Cambiar contraseña (`PasswordChangeView`), editar nombre y email
+- [ ] **Admin de usuarios (solo superuser)** — Listar, crear, editar, activar/desactivar staff
+- [ ] **Grupos predefinidos** — Administradores, Editores, Visualizadores con permisos específicos
+- [ ] **Adaptar vistas y templates** — Ocultar botones y acciones según permisos del usuario
+- [ ] **Enlace "Mi Perfil" y "Administrar Usuarios"** en navbar (según rol)
+
+## 🚀 Fase 8 — Extras
 
 - [ ] **Exportar a CSV** — Botón para descargar listado de productos como CSV
 - [ ] **API REST (DRF)** — Endpoints con Django Rest Framework para productos y categorías
@@ -61,4 +69,4 @@
 
 ---
 
-> **Leyenda:** ✅ Completado | 🎨 Visual | ⚙️ Funcional | 🚀 Extra
+> **Leyenda:** ✅ Completado | 🎨 Visual | ⚙️ Funcional | 👥 Usuarios | 🚀 Extra
