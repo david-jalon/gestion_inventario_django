@@ -234,3 +234,32 @@ class TestCategoryDeleteView:
     def test_delete_nonexistent_category(self, client_authenticated):
         response = client_authenticated.post("/categorias/999/eliminar/", follow=True)
         assert response.status_code == 404
+
+
+class TestProductExportCSV:
+    def test_export_csv_success(self, client_authenticated, product):
+        response = client_authenticated.get("/productos/exportar/")
+        assert response.status_code == 200
+        assert response['Content-Type'] == 'text/csv; charset=utf-8'
+        assert 'attachment' in response['Content-Disposition']
+        assert 'productos_' in response['Content-Disposition']
+        assert '.csv' in response['Content-Disposition']
+        content = response.content.decode('utf-8-sig')
+        assert 'Nombre' in content
+        assert 'Laptop' in content
+
+    def test_export_csv_redirects_anonymous(self, client):
+        response = client.get("/productos/exportar/")
+        assert response.status_code == 302
+
+    def test_export_csv_empty(self, client_authenticated):
+        response = client_authenticated.get("/productos/exportar/")
+        content = response.content.decode('utf-8-sig')
+        lines = [l for l in content.splitlines() if l]
+        assert len(lines) == 1
+        assert 'Nombre' in lines[0]
+
+    def test_export_csv_headers_and_bom(self, client_authenticated):
+        response = client_authenticated.get("/productos/exportar/")
+        raw = response.content
+        assert raw[:3] == b'\xef\xbb\xbf'

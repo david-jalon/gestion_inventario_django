@@ -82,9 +82,18 @@
 
 ## 🚀 Fase 8 — Extras
 
-- [ ] **Exportar a CSV** — Botón para descargar listado de productos como CSV
+- [x] **Exportar a CSV** — Botón para descargar listado de productos como CSV (con fecha y hora en el nombre)
 - [ ] **API REST (DRF)** — Endpoints con Django Rest Framework para productos y categorías
 - [ ] **Notificaciones persistentes** — Banner fijo en la navbar si hay productos con stock bajo
+
+## ⚙️ Fase 9 — Configuración general
+
+- [ ] **Modelo `CompanySettings`** — Nombre de empresa, logo, símbolo de moneda (patrón singleton)
+- [ ] **Context processor** — Inyectar `company_name`, `company_logo`, `currency_symbol` en todas las templates
+- [ ] **Vista de configuración** — Formulario para editar settings (solo superuser)
+- [ ] **Navbar dinámico** — Logo + nombre de empresa como brand; enlace a ⚙️ Configuración (solo superuser)
+- [ ] **Moneda dinámica** — Reemplazar `$` hardcodeado por `{{ currency_symbol }}` en dashboard y productos
+- [ ] **Tests** — Singleton, contexto, vista protegida, moneda en templates
 
 ---
 

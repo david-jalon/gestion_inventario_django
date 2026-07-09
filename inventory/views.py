@@ -1,9 +1,12 @@
+import csv
 from functools import wraps
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Sum, F, Count, Q
+from django.utils import timezone
 from .models import Category, Product, StockMovement
 from .forms import ProductForm, CategoryForm, StockMovementForm
 
@@ -211,3 +214,24 @@ def movement_create(request, product_pk):
         'form': form,
         'product': product,
     })
+
+
+@login_required
+def product_export_csv(request):
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    timestamp = timezone.now().strftime('%Y%m%d_%H%M')
+    response['Content-Disposition'] = f'attachment; filename="productos_{timestamp}.csv"'
+    response.write('\ufeff')
+    writer = csv.writer(response)
+    writer.writerow(['Nombre', 'Descripción', 'Categoría', 'Precio', 'Stock', 'Umbral de stock bajo'])
+    products = Product.objects.select_related('category').all()
+    for p in products:
+        writer.writerow([
+            p.name,
+            p.description,
+            p.category.name if p.category else '',
+            str(p.price),
+            p.stock,
+            p.low_stock_threshold,
+        ])
+    return response
