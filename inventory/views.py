@@ -1,3 +1,4 @@
+from functools import wraps
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -5,6 +6,20 @@ from django.core.paginator import Paginator
 from django.db.models import Sum, F, Count, Q
 from .models import Category, Product, StockMovement
 from .forms import ProductForm, CategoryForm, StockMovementForm
+
+
+def require_permission(perm):
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return redirect(f'/login/?next={request.path}')
+            if not request.user.has_perm(perm):
+                messages.error(request, 'No tienes permiso para realizar esta acción.')
+                return redirect('dashboard')
+            return view_func(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
 
 
 @login_required
@@ -82,7 +97,7 @@ def product_list(request):
     })
 
 
-@login_required
+@require_permission('inventory.add_product')
 def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -95,7 +110,7 @@ def product_create(request):
     return render(request, 'inventory/product_form.html', {'form': form})
 
 
-@login_required
+@require_permission('inventory.change_product')
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
@@ -109,7 +124,7 @@ def product_update(request, pk):
     return render(request, 'inventory/product_form.html', {'form': form, 'product': product})
 
 
-@login_required
+@require_permission('inventory.delete_product')
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
@@ -127,7 +142,7 @@ def category_list(request):
     return render(request, 'inventory/category_list.html', {'categories': categories})
 
 
-@login_required
+@require_permission('inventory.add_category')
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -140,7 +155,7 @@ def category_create(request):
     return render(request, 'inventory/category_form.html', {'form': form})
 
 
-@login_required
+@require_permission('inventory.change_category')
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
@@ -154,7 +169,7 @@ def category_update(request, pk):
     return render(request, 'inventory/category_form.html', {'form': form, 'category': category})
 
 
-@login_required
+@require_permission('inventory.delete_category')
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
@@ -174,7 +189,7 @@ def movement_list(request, product_pk):
     })
 
 
-@login_required
+@require_permission('inventory.add_stockmovement')
 def movement_create(request, product_pk):
     product = get_object_or_404(Product, pk=product_pk)
     if request.method == 'POST':

@@ -1,5 +1,5 @@
 import pytest
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from inventory.models import Category, Product, StockMovement
 
 pytestmark = pytest.mark.django_db
@@ -7,7 +7,10 @@ pytestmark = pytest.mark.django_db
 
 @pytest.fixture
 def user():
-    return User.objects.create_user(username='testuser', password='testpass123')
+    u = User.objects.create_user(username='testuser', password='testpass123')
+    perms = Permission.objects.filter(content_type__app_label='inventory')
+    u.user_permissions.set(perms)
+    return u
 
 
 @pytest.fixture

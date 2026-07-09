@@ -55,11 +55,30 @@
 
 ## 👥 Fase 7 — Gestión de usuarios y permisos
 
-- [ ] **Perfil de usuario** — Cambiar contraseña (`PasswordChangeView`), editar nombre y email
-- [ ] **Admin de usuarios (solo superuser)** — Listar, crear, editar, activar/desactivar staff
-- [ ] **Grupos predefinidos** — Administradores, Editores, Visualizadores con permisos específicos
-- [ ] **Adaptar vistas y templates** — Ocultar botones y acciones según permisos del usuario
-- [ ] **Enlace "Mi Perfil" y "Administrar Usuarios"** en navbar (según rol)
+### 7A — Perfil de usuario ✅
+
+- [x] **Cambiar contraseña** — `PasswordChangeView` + templates
+- [x] **Editar perfil** — Nombre, apellidos, email
+- [x] **Enlace "Perfil"** en navbar
+
+### 7B — Admin de usuarios (solo superuser) ✅
+
+- [x] **UserAdminForm** — Formulario con username, email, nombre, password (opcional en edición), is_active, is_staff, grupos, permisos
+- [x] **`user_list`** — Tabla con todos los usuarios y acciones rápidas
+- [x] **`user_create`** — Crear usuario con todos los campos
+- [x] **`user_update`** — Editar usuario (contraseña opcional)
+- [x] **`user_toggle_staff`** / **`user_toggle_active`** — Activar/desactivar con POST
+- [x] **`user_delete`** — Eliminar usuario con modal de confirmación
+- [x] **Enlace "Usuarios"** en navbar (solo visible para superusers)
+- [x] **Protección** — No permitir auto-desactivarse ni auto-eliminarse
+- [x] **Tests** — Listar, crear, editar, toggle, eliminar, permisos
+
+### 7C — Grupos y permisos ✅
+
+- [x] **Grupos predefinidos** — Administradores, Editores, Visualizadores con permisos específicos
+- [x] **Adaptar vistas** — Decorador `require_permission` en vistas de crear, editar, eliminar
+- [x] **Adaptar templates** — Botones ocultos según `perms` (productos, categorías, movimientos)
+- [x] **Tests** — Verificación de permisos por grupo y decorador
 
 ## 🚀 Fase 8 — Extras
 
