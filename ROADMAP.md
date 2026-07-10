@@ -83,8 +83,8 @@
 ## 🚀 Fase 8 — Extras
 
 - [x] **Exportar a CSV** — Botón para descargar listado de productos como CSV (con fecha y hora en el nombre)
-- [ ] **API REST (DRF)** — Endpoints con Django Rest Framework para productos y categorías
-- [ ] **Notificaciones persistentes** — Banner fijo en la navbar si hay productos con stock bajo
+- [x] **API REST (DRF)** — ViewSets con filtros, búsqueda, ordenamiento y paginación para productos y categorías
+- [x] **Notificaciones persistentes** — Banner fijo bajo la navbar si hay productos con stock bajo (context processor + base.html)
 
 ## ⚙️ Fase 9 — Configuración general
 

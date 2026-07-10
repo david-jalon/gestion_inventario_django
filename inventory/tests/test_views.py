@@ -66,7 +66,7 @@ class TestProductListView:
 
     def test_filter_by_category(self, client_authenticated, category, product):
         other_category = Category.objects.create(name="Ropa")
-        Product.objects.create(name="Camiseta", category=other_category, price=200.00)
+        Product.objects.create(name="Camiseta", category=other_category, price=200.00, stock=10)
         response = client_authenticated.get(f"/productos/?category={category.id}")
         content = response.content.decode()
         assert "Laptop" in content
@@ -94,7 +94,7 @@ class TestProductListView:
         assert b_pos < a_pos
 
     def test_search_by_name(self, client_authenticated, category, product):
-        Product.objects.create(name="Mouse", category=category, price=500.00)
+        Product.objects.create(name="Mouse", category=category, price=500.00, stock=10)
         response = client_authenticated.get("/productos/?q=laptop")
         content = response.content.decode()
         assert "Laptop" in content
@@ -128,7 +128,7 @@ class TestProductCreateView:
             "category": category.id, "price": 100.00,
         })
         assert response.status_code == 200
-        assert "Este campo es obligatorio" in response.content.decode()
+        assert "Este campo es requerido" in response.content.decode()
         assert Product.objects.count() == 0
 
     def test_create_product_invalid_category(self, client_authenticated):
