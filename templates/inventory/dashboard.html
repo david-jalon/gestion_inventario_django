@@ -2,7 +2,7 @@
 {% block title %}Dashboard - Gestión de Inventario{% endblock %}
 {% block content %}
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
         <div class="flex items-center gap-4">
             <div class="p-3 bg-blue-100 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -10,13 +10,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium">Total Productos</p>
-                <p class="text-2xl font-bold text-gray-800">{{ total_products }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Productos</p>
+                <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ total_products }}</p>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
         <div class="flex items-center gap-4">
             <div class="p-3 {% if low_stock_products > 0 %}bg-red-100{% else %}bg-green-100{% endif %} rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 {% if low_stock_products > 0 %}text-red-600{% else %}text-green-600{% endif %}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -24,13 +24,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium">Stock Bajo</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Stock Bajo</p>
                 <p class="text-2xl font-bold {% if low_stock_products > 0 %}text-red-600{% else %}text-green-600{% endif %}">{{ low_stock_products }}</p>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
         <div class="flex items-center gap-4">
             <div class="p-3 bg-purple-100 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -39,13 +39,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium">Categorías</p>
-                <p class="text-2xl font-bold text-gray-800">{{ total_categories }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Categorías</p>
+                <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ total_categories }}</p>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
         <div class="flex items-center gap-4">
             <div class="p-3 bg-green-100 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -53,30 +53,30 @@
                 </svg>
             </div>
             <div>
-                <p class="text-sm text-gray-500 font-medium">Valor Total</p>
-                <p class="text-2xl font-bold text-gray-800">{{ total_value|floatformat:2 }}{{ currency_symbol }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Valor Total</p>
+                <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ total_value|floatformat:2 }}{{ currency_symbol }}</p>
             </div>
         </div>
     </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold text-gray-800">Últimos Productos</h2>
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Últimos Productos</h2>
             <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">Ver todos</a>
         </div>
         {% if latest_products %}
             <div class="space-y-3">
                 {% for product in latest_products %}
-                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
                         <div>
-                            <p class="text-sm font-medium text-gray-800">{{ product.name }}</p>
-                            <p class="text-xs text-gray-500">{{ product.category.name }}</p>
+                            <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ product.name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ product.category.name }}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm font-medium text-gray-800">{{ currency_symbol }}{{ product.price }}</p>
-                            <p class="text-xs {% if product.is_low_stock %}text-red-500 font-medium{% else %}text-gray-500{% endif %}">
+                            <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ currency_symbol }}{{ product.price }}</p>
+                            <p class="text-xs {% if product.is_low_stock %}text-red-500 dark:text-red-400 font-medium{% else %}text-gray-500 dark:text-gray-400{% endif %}">
                                 Stock: {{ product.stock }}
                             </p>
                         </div>
@@ -84,25 +84,25 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-gray-500 text-sm py-4 text-center">No hay productos registrados.</p>
+            <p class="text-gray-500 dark:text-gray-400 text-sm py-4 text-center">No hay productos registrados.</p>
         {% endif %}
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold text-gray-800">Alertas de Stock</h2>
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Alertas de Stock</h2>
             <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">Ver todos</a>
         </div>
         {% if low_stock_list %}
             <div class="space-y-3">
                 {% for product in low_stock_list %}
-                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
                         <div>
-                            <p class="text-sm font-medium text-gray-800">{{ product.name }}</p>
-                            <p class="text-xs text-gray-500">{{ product.category.name }}</p>
+                            <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ product.name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ product.category.name }}</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-300">
                                 {{ product.stock }} / {{ product.low_stock_threshold }}
                             </span>
                         </div>
@@ -110,7 +110,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-gray-500 text-sm py-4 text-center">No hay productos con stock bajo.</p>
+            <p class="text-gray-500 dark:text-gray-400 text-sm py-4 text-center">No hay productos con stock bajo.</p>
         {% endif %}
     </div>
 </div>

@@ -95,6 +95,15 @@
 - [x] **Moneda dinámica** — `$` reemplazado por `{{ currency_symbol }}` en dashboard y productos
 - [x] **Tests** — Singleton, CRUD, logo upload, context processor, vista protegida, moneda personalizada
 
+## 🌓 Fase 10 — Modo oscuro ✅
+
+- [x] **Configuración Tailwind** — `darkMode: 'class'` en CDN + script anti-flash en `<head>`
+- [x] **Toggle sol/luna** — Botón en navbar junto a settings, persiste en `localStorage`
+- [x] **Base template** — `dark:` en navbar, main container, toasts, stock banner
+- [x] **Dashboard, productos, categorías, movimientos** — Clases `dark:` en cards, tablas, formularios, modales
+- [x] **Login, registro, perfil, usuarios, settings** — Clases `dark:` en las 17 templates restantes
+- [x] **Tests** — 132 tests pasando sin cambios (solo clases visuales, sin lógica alterada)
+
 ---
 
-> **Leyenda:** ✅ Completado | 🎨 Visual | ⚙️ Funcional | 👥 Usuarios | 🚀 Extra
+> **Leyenda:** ✅ Completado | 🎨 Visual | ⚙️ Funcional | 👥 Usuarios | 🚀 Extra | 🌓 Tema

@@ -2,21 +2,21 @@
 {% block title %}Nuevo Movimiento - {{ product.name }}{% endblock %}
 {% block content %}
 <div class="max-w-lg mx-auto">
-    <h1 class="text-2xl font-bold text-gray-800 mb-2">Nuevo Movimiento</h1>
-    <p class="text-sm text-gray-500 mb-6">{{ product.name }} — Stock actual: <strong>{{ product.stock }}</strong></p>
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Nuevo Movimiento</h1>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">{{ product.name }} — Stock actual: <strong>{{ product.stock }}</strong></p>
 
-    <form method="post" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+    <form method="post" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-4">
         {% csrf_token %}
 
         {% if form.non_field_errors %}
-        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
             {{ form.non_field_errors }}
         </div>
         {% endif %}
 
         <div>
-            <label for="{{ form.movement_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Tipo *</label>
-            <select name="{{ form.movement_type.html_name }}" id="{{ form.movement_type.id_for_label }}" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <label for="{{ form.movement_type.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo *</label>
+            <select name="{{ form.movement_type.html_name }}" id="{{ form.movement_type.id_for_label }}" required class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-100">
                 {% for choice in form.movement_type.field.choices %}
                 <option value="{{ choice.0 }}" {% if form.movement_type.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
                 {% endfor %}
@@ -24,23 +24,23 @@
         </div>
 
         <div>
-            <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Cantidad *</label>
-            <input type="number" name="{{ form.quantity.html_name }}" id="{{ form.quantity.id_for_label }}" value="{{ form.quantity.value|default:'' }}" min="1" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 {% if form.quantity.errors %}border-red-500{% endif %}">
+            <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cantidad *</label>
+            <input type="number" name="{{ form.quantity.html_name }}" id="{{ form.quantity.id_for_label }}" value="{{ form.quantity.value|default:'' }}" min="1" required class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-100 {% if form.quantity.errors %}border-red-500{% endif %}">
             {% if form.quantity.errors %}
             <p class="text-red-500 text-xs mt-1">{{ form.quantity.errors.0 }}</p>
             {% endif %}
         </div>
 
         <div>
-            <label for="{{ form.reason.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
-            <textarea name="{{ form.reason.html_name }}" id="{{ form.reason.id_for_label }}" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ form.reason.value|default:'' }}</textarea>
+            <label for="{{ form.reason.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Motivo</label>
+            <textarea name="{{ form.reason.html_name }}" id="{{ form.reason.id_for_label }}" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-100">{{ form.reason.value|default:'' }}</textarea>
         </div>
 
         <div class="flex gap-3 pt-2">
             <button type="submit" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                 Registrar
             </button>
-            <a href="{% url 'movement_list' product_pk=product.pk %}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            <a href="{% url 'movement_list' product_pk=product.pk %}" class="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                 Cancelar
             </a>
         </div>

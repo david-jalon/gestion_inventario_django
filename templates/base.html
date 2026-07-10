@@ -3,32 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var theme = localStorage.getItem('theme');
+        if (!theme) { theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        if (theme === 'dark') { document.documentElement.classList.add('dark'); }
+    </script>
     <title>{% block title %}{{ company_name }} - Gestión de Inventario{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
+    <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-8">
-                    <a href="{% url 'dashboard' %}" class="flex items-center gap-2 text-xl font-bold text-gray-800 tracking-tight">
+                    <a href="{% url 'dashboard' %}" class="flex items-center gap-2 text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">
                         {% if company_logo %}
                         <img src="{{ company_logo.url }}" alt="{{ company_name }}" class="h-8 w-auto">
                         {% endif %}
                         {{ company_name }}
                     </a>
                     <div class="flex items-center gap-1">
-                        <a href="{% url 'dashboard' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                        <a href="{% url 'dashboard' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200{% else %}text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors">
                             Dashboard
                         </a>
-                        <a href="{% url 'product_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'product_list' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                        <a href="{% url 'product_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'product_list' %}bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200{% else %}text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors">
                             Productos
                         </a>
-                        <a href="{% url 'category_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'category_list' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                        <a href="{% url 'category_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name == 'category_list' %}bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200{% else %}text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors">
                             Categorías
                         </a>
                         {% if user.is_superuser %}
-                        <a href="{% url 'user_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name|slice:':5' == 'user_' %}bg-blue-50 text-blue-700{% else %}text-gray-600 hover:text-gray-800 hover:bg-gray-100{% endif %} transition-colors">
+                        <a href="{% url 'user_list' %}" class="px-3 py-2 text-sm font-medium rounded-lg {% if request.resolver_match.url_name|slice:':5' == 'user_' %}bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200{% else %}text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors">
                             Usuarios
                         </a>
                         {% endif %}
@@ -36,8 +45,16 @@
                 </div>
 
                 <div class="flex items-center gap-1">
+                    <button id="theme-toggle" type="button" class="inline-flex items-center justify-center px-2 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors" title="Cambiar tema">
+                        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                    </button>
                     {% if user.is_superuser %}
-                    <a href="{% url 'settings_update' %}" class="inline-flex items-center gap-1.5 px-2 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Configuración">
+                    <a href="{% url 'settings_update' %}" class="inline-flex items-center gap-1.5 px-2 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors" title="Configuración">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -45,8 +62,8 @@
                     </a>
                     {% endif %}
                     {% if user.is_authenticated %}
-                    <span class="text-sm text-gray-500 hidden sm:inline">{{ user.username }}</span>
-                    <a href="{% url 'profile_update' %}" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:inline">{{ user.username }}</span>
+                    <a href="{% url 'profile_update' %}" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
@@ -54,7 +71,7 @@
                     </a>
                     <form method="post" action="{% url 'logout' %}" class="inline">
                         {% csrf_token %}
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                             </svg>
@@ -62,10 +79,10 @@
                         </button>
                     </form>
                     {% else %}
-                    <a href="{% url 'login' %}" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <a href="{% url 'login' %}" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors">
                         Entrar
                     </a>
-                    <a href="{% url 'register' %}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors shadow-sm">
+                    <a href="{% url 'register' %}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-lg transition-colors shadow-sm">
                         Registrarse
                     </a>
                     {% endif %}
@@ -75,21 +92,21 @@
     </nav>
 
     {% if user.is_authenticated and low_stock_count %}
-    <div class="bg-amber-50 border-b border-amber-200">
+    <div class="bg-amber-50 dark:bg-amber-900 border-b border-amber-200 dark:border-amber-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between">
-            <div class="flex items-center gap-2 text-sm text-amber-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <div class="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-amber-500 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                 </svg>
                 <span class="font-medium">{{ low_stock_count }} producto{% if low_stock_count != 1 %}s{% endif %} con stock bajo</span>
-                <span class="hidden sm:inline text-amber-600">—</span>
-                <span class="hidden sm:inline text-amber-600">
+                <span class="hidden sm:inline text-amber-600 dark:text-amber-400">—</span>
+                <span class="hidden sm:inline text-amber-600 dark:text-amber-400">
                 {% for p in low_stock_list %}
                     {{ p.name }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
                 </span>
             </div>
-            <a href="{% url 'product_list' %}?q=&amp;category=" class="flex-shrink-0 text-xs font-medium text-amber-700 hover:text-amber-900 underline underline-offset-2">
+            <a href="{% url 'product_list' %}?q=&amp;category=" class="flex-shrink-0 text-xs font-medium text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-100 underline underline-offset-2">
                 Revisar ahora
             </a>
         </div>
@@ -100,13 +117,13 @@
         <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2">
             {% if messages %}
                 {% for message in messages %}
-                    <div data-toast class="flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border {% if message.tags == 'error' %}bg-red-50 text-red-800 border-red-200{% else %}bg-green-50 text-green-800 border-green-200{% endif %} transform transition-all duration-300">
+                    <div data-toast class="flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border {% if message.tags == 'error' %}bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-200 border-red-200 dark:border-red-700{% else %}bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 border-green-200 dark:border-green-700{% endif %} transform transition-all duration-300">
                         {% if message.tags == 'error' %}
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-red-500 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                         </svg>
                         {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                         {% endif %}
@@ -154,6 +171,34 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             document.body.style.overflow = '';
+        }
+
+        var themeToggle = document.getElementById('theme-toggle');
+        var iconSun = document.getElementById('theme-icon-sun');
+        var iconMoon = document.getElementById('theme-icon-moon');
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                iconSun.classList.remove('hidden');
+                iconMoon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                iconSun.classList.add('hidden');
+                iconMoon.classList.remove('hidden');
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        var current = localStorage.getItem('theme');
+        if (!current) { current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        setTheme(current);
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                var next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+                setTheme(next);
+            });
         }
     </script>
 </body>

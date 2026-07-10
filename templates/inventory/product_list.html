@@ -3,7 +3,7 @@
 {% block content %}
 {% if products %}
 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Productos</h1>
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Productos</h1>
     <div class="flex items-center gap-2 self-start">
         {% if perms.inventory.add_product %}
         <a href="{% url 'product_create' %}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
@@ -13,7 +13,7 @@
             Nuevo Producto
         </a>
         {% endif %}
-        <a href="{% url 'product_export_csv' %}" class="inline-flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+        <a href="{% url 'product_export_csv' %}" class="inline-flex items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
             </svg>
@@ -24,9 +24,9 @@
 
 <form method="get" class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
     <div class="w-full sm:w-auto">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Buscar</label>
         <div class="relative">
-            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-64 border border-gray-300 rounded-lg px-3 py-2 pr-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nombre o descripción..." class="w-full sm:w-64 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 pr-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-100">
             <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -35,9 +35,9 @@
         </div>
     </div>
     <div class="w-full sm:w-auto">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Filtrar por categoría</label>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filtrar por categoría</label>
         <div class="relative">
-            <select name="category" onchange="this.form.submit()" class="w-full sm:w-56 appearance-none border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+            <select name="category" onchange="this.form.submit()" class="w-full sm:w-56 appearance-none border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 pr-8 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 dark:text-gray-100">
                 <option value="">Todas las categorías</option>
                 {% for cat in categories %}
                     <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:'s' %}selected{% endif %}>{{ cat.name }}</option>
@@ -52,13 +52,13 @@
         <a href="{% url 'product_list' %}" class="text-sm text-blue-600 hover:text-blue-500 font-medium">Limpiar filtros</a>
     {% endif %}
 </form>
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full min-w-[640px]">
                 <thead>
-                    <tr class="bg-gray-50 border-b border-gray-200">
+                    <tr class="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
                         <th class="px-4 py-3 text-left">
-                            <a href="?{{ sort_links.name }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                            <a href="?{{ sort_links.name }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
                                 Nombre
                                 {% if current_sort == 'name' %}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -71,9 +71,9 @@
                                 {% endif %}
                             </a>
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Categoría</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoría</th>
                         <th class="px-4 py-3 text-left">
-                            <a href="?{{ sort_links.price }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                            <a href="?{{ sort_links.price }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
                                 Precio
                                 {% if current_sort == 'price' %}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -87,7 +87,7 @@
                             </a>
                         </th>
                         <th class="px-4 py-3 text-left">
-                            <a href="?{{ sort_links.stock }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                            <a href="?{{ sort_links.stock }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
                                 Stock
                                 {% if current_sort == 'stock' %}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -100,36 +100,36 @@
                                 {% endif %}
                             </a>
                         </th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
                     {% for product in products %}
-                        <tr class="hover:bg-gray-50 transition-colors {% if product.is_low_stock %}bg-red-50/50{% endif %}">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors {% if product.is_low_stock %}bg-red-50/50 dark:bg-red-900/30{% endif %}">
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg {% if product.is_low_stock %}bg-red-100{% else %}bg-blue-100{% endif %} flex items-center justify-center flex-shrink-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 {% if product.is_low_stock %}text-red-600{% else %}text-blue-600{% endif %}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <div class="w-8 h-8 rounded-lg {% if product.is_low_stock %}bg-red-100 dark:bg-red-800{% else %}bg-blue-100 dark:bg-blue-800{% endif %} flex items-center justify-center flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 {% if product.is_low_stock %}text-red-600 dark:text-red-400{% else %}text-blue-600 dark:text-blue-400{% endif %}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-sm font-medium text-gray-800">{{ product.name }}</p>
-                                        <p class="text-xs text-gray-500">{{ product.category.name }}</p>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ product.name }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ product.category.name }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-4 py-3.5">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                                     {{ product.category.name }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3.5 text-sm font-medium text-gray-800">{{ currency_symbol }}{{ product.price }}</td>
+                            <td class="px-4 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-100">{{ currency_symbol }}{{ product.price }}</td>
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-sm font-medium {% if product.is_low_stock %}text-red-600{% else %}text-gray-800{% endif %}">{{ product.stock }}</span>
+                                    <span class="text-sm font-medium {% if product.is_low_stock %}text-red-600 dark:text-red-400{% else %}text-gray-800 dark:text-gray-100{% endif %}">{{ product.stock }}</span>
                                     {% if product.is_low_stock %}
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-300">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                                             </svg>
@@ -140,14 +140,14 @@
                             </td>
                             <td class="px-4 py-3.5 text-right">
                                 <div class="flex items-center justify-end gap-1">
-                                    <a href="{% url 'movement_list' product_pk=product.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors" title="Ver movimientos">
+                                    <a href="{% url 'movement_list' product_pk=product.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900 rounded-lg transition-colors" title="Ver movimientos">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
                                         </svg>
                                         Historial
                                     </a>
                                     {% if perms.inventory.change_product %}
-                                    <a href="{% url 'product_update' product.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                    <a href="{% url 'product_update' product.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
@@ -155,7 +155,7 @@
                                     </a>
                                     {% endif %}
                                     {% if perms.inventory.delete_product %}
-                                    <button onclick="openDeleteModal('{{ product.pk }}', '{{ product.name|escapejs }}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                    <button onclick="openDeleteModal('{{ product.pk }}', '{{ product.name|escapejs }}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                         </svg>
@@ -173,12 +173,12 @@
 
     {% if page_obj.paginator.num_pages > 1 %}
     <div class="flex items-center justify-between mt-6">
-        <p class="text-sm text-gray-500">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
             Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
         </p>
         <div class="flex items-center gap-1">
             {% if page_obj.has_previous %}
-                <a href="?{{ base_encoded }}&page={{ page_obj.previous_page_number }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <a href="?{{ base_encoded }}&page={{ page_obj.previous_page_number }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
@@ -191,13 +191,13 @@
                     {% if num == page_obj.number %}
                         <span class="px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg">{{ num }}</span>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <a href="?{{ base_encoded }}&page={{ num }}" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">{{ num }}</a>
+                        <a href="?{{ base_encoded }}&page={{ num }}" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
             </div>
 
             {% if page_obj.has_next %}
-                <a href="?{{ base_encoded }}&page={{ page_obj.next_page_number }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <a href="?{{ base_encoded }}&page={{ page_obj.next_page_number }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     Siguiente
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -209,14 +209,14 @@
     {% endif %}
 
 {% else %}
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
             </svg>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">No hay productos registrados</h3>
-        <p class="text-sm text-gray-500 mb-6">Comienza agregando tu primer producto al inventario.</p>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">No hay productos registrados</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Comienza agregando tu primer producto al inventario.</p>
         {% if perms.inventory.add_product %}
         <a href="{% url 'product_create' %}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -230,20 +230,20 @@
 
 {% if perms.inventory.delete_product %}
 <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50" onclick="if(event.target===this)closeDeleteModal()">
-    <div class="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full mx-4 transform transition-all">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 max-w-sm w-full mx-4 transform transition-all">
         <div class="text-center">
-            <div class="w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <div class="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                 </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">¿Eliminar producto?</h3>
-            <p class="text-sm text-gray-600 mb-6">Estás a punto de eliminar <strong id="deleteProductName" class="text-gray-800"></strong>. Esta acción no se puede deshacer.</p>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">¿Eliminar producto?</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-6">Estás a punto de eliminar <strong id="deleteProductName" class="text-gray-800 dark:text-gray-100"></strong>. Esta acción no se puede deshacer.</p>
         </div>
         <form id="deleteForm" method="post" data-url-pattern="{% url 'product_delete' 0 %}">
             {% csrf_token %}
             <div class="flex gap-3">
-                <button type="button" onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancelar</button>
+                <button type="button" onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancelar</button>
                 <button type="submit" class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-500 rounded-lg transition-colors">Eliminar</button>
             </div>
         </form>
