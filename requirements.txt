@@ -5,3 +5,4 @@ pytest-django>=4.5
 psycopg2-binary>=2.9
 djangorestframework>=3.17
 django-filter>=25.1
+Pillow>=10.0

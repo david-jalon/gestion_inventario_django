@@ -1,5 +1,14 @@
 from django.db.models import F
-from .models import Product
+from .models import Product, CompanySettings
+
+
+def company_settings(request):
+    settings = CompanySettings.load()
+    return {
+        'company_name': settings.company_name,
+        'company_logo': settings.logo,
+        'currency_symbol': settings.currency_symbol,
+    }
 
 
 def low_stock_notification(request):

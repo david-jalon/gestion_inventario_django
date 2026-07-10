@@ -86,14 +86,14 @@
 - [x] **API REST (DRF)** — ViewSets con filtros, búsqueda, ordenamiento y paginación para productos y categorías
 - [x] **Notificaciones persistentes** — Banner fijo bajo la navbar si hay productos con stock bajo (context processor + base.html)
 
-## ⚙️ Fase 9 — Configuración general
+## ⚙️ Fase 9 — Configuración general ✅
 
-- [ ] **Modelo `CompanySettings`** — Nombre de empresa, logo, símbolo de moneda (patrón singleton)
-- [ ] **Context processor** — Inyectar `company_name`, `company_logo`, `currency_symbol` en todas las templates
-- [ ] **Vista de configuración** — Formulario para editar settings (solo superuser)
-- [ ] **Navbar dinámico** — Logo + nombre de empresa como brand; enlace a ⚙️ Configuración (solo superuser)
-- [ ] **Moneda dinámica** — Reemplazar `$` hardcodeado por `{{ currency_symbol }}` en dashboard y productos
-- [ ] **Tests** — Singleton, contexto, vista protegida, moneda en templates
+- [x] **Modelo `CompanySettings`** — Nombre de empresa, logo, símbolo de moneda (patrón singleton con `load()`)
+- [x] **Context processor** — Inyecta `company_name`, `company_logo`, `currency_symbol` en todas las templates
+- [x] **Vista de configuración** — Formulario para editar nombre, logo y moneda (solo superuser) en `/configuracion/`
+- [x] **Navbar dinámico** — Logo + nombre de empresa como brand; icono de engranaje ⚙️ a Configuración (solo superuser)
+- [x] **Moneda dinámica** — `$` reemplazado por `{{ currency_symbol }}` en dashboard y productos
+- [x] **Tests** — Singleton, CRUD, logo upload, context processor, vista protegida, moneda personalizada
 
 ---
 

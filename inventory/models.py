@@ -49,3 +49,30 @@ class StockMovement(models.Model):
 
     def __str__(self):
         return f"{self.get_movement_type_display()} - {self.product.name} ({self.quantity})"
+
+
+class CompanySettings(models.Model):
+    company_name = models.CharField(max_length=100, default='Mi Empresa')
+    logo = models.ImageField(upload_to='company/', blank=True, null=True)
+    currency_symbol = models.CharField(max_length=10, default='$')
+
+    class Meta:
+        verbose_name_plural = 'company settings'
+
+    def save(self, *args, **kwargs):
+        if not self.pk and CompanySettings.objects.exists():
+            existing = CompanySettings.objects.first()
+            for field in self._meta.fields:
+                if field.name != 'id':
+                    setattr(existing, field.name, getattr(self, field.name))
+            existing.save()
+            return existing
+        return super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return self.company_name

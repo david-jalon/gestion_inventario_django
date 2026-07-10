@@ -3,11 +3,11 @@ from functools import wraps
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Sum, F, Count, Q
 from django.utils import timezone
-from .models import Category, Product, StockMovement
+from .models import Category, Product, StockMovement, CompanySettings
 from .forms import ProductForm, CategoryForm, StockMovementForm
 
 
@@ -235,3 +235,19 @@ def product_export_csv(request):
             p.low_stock_threshold,
         ])
     return response
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def settings_update(request):
+    settings = CompanySettings.load()
+    if request.method == 'POST':
+        settings.company_name = request.POST.get('company_name', 'Mi Empresa')
+        settings.currency_symbol = request.POST.get('currency_symbol', '$')
+        if 'logo' in request.FILES:
+            settings.logo = request.FILES['logo']
+        settings.save()
+        messages.success(request, 'Configuración actualizada exitosamente.')
+        return redirect('settings_update')
+    return render(request, 'inventory/company_settings_form.html', {
+        'settings': settings,
+    })
